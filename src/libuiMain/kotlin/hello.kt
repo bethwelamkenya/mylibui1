@@ -2,8 +2,8 @@ import libui.ktx.*
 
 fun main() = appWindow(
     title = "Hello",
-    width = 320,
-    height = 240
+    width = 400,
+    height = 300
 ) {
     vbox {
         lateinit var scroll: TextArea
