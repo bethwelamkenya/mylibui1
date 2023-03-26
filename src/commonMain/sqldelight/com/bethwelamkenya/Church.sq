@@ -1,0 +1,177 @@
+CREATE TABLE member (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT,
+    reg_no TEXT,
+    number INTEGER,
+    school TEXT,
+    year INTEGER,
+    department TEXT,
+    residence TEXT
+);
+CREATE TABLE admin (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT,
+    number INTEGER,
+    user_name TEXT,
+    password TEXT,
+    security TEXT,
+    answer TEXT
+);
+CREATE TABLE attendance (
+    attendance_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    number INTEGER,
+    residence TEXT,
+    date TEXT NOT NULL,
+    status INTEGER NOT NULL
+);
+CREATE TABLE date (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    date TEXT NOT NULL
+);
+
+selectAllMembers:
+SELECT * FROM member;
+
+selectAllAdmins:
+SELECT * FROM admin;
+
+selectAllAttendances:
+SELECT * FROM attendance;
+
+selectAllDates:
+SELECT * FROM date;
+
+insertMember:
+INSERT INTO member (
+    name,
+    email,
+    reg_no,
+    number,
+    school,
+    year,
+    department,
+    residence
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+insertAdmin:
+INSERT INTO admin (
+    name,
+    email,
+    number,
+    user_name,
+    password,
+    security,
+    answer
+) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertAttendance:
+INSERT INTO attendance (
+    id,
+    name,
+    number,
+    date,
+    status
+) VALUES (?, ?, ?, ?, ?);
+
+insertDate:
+INSERT INTO date (
+    date
+) VALUES (?);
+
+updateMember:
+UPDATE OR IGNORE member SET
+    name = ?,
+    email = ?,
+    reg_no = ?,
+    number = ?,
+    school = ?,
+    year = ?,
+    department = ?,
+    residence = ? WHERE id = ?;
+
+updateAdmin:
+UPDATE OR IGNORE admin SET
+    name = ?,
+    email = ?,
+    number = ?,
+    user_name = ?,
+    password = ?,
+    security = ?,
+    answer = ? WHERE id = ?;
+
+updateAttendance:
+UPDATE OR IGNORE attendance SET
+    id = ?,
+    name = ?,
+    number = ?,
+    residence = ?,
+    date = ?,
+    status = ? WHERE attendance_id = ?;
+
+updateDate:
+UPDATE OR IGNORE date SET
+    date = ? WHERE id = ?;
+
+selectMemberByName:
+SELECT * FROM member WHERE name = ?;
+
+selectMemberByID:
+SELECT * FROM member WHERE id = ?;
+
+selectAdminByName:
+SELECT * FROM admin WHERE name = ?;
+
+selectAdminByUserName:
+SELECT * FROM admin WHERE user_name = ?;
+
+selectAdminByUserNameAndPassword:
+SELECT * FROM admin WHERE user_name = ? AND password = ?;
+
+selectAdminByID:
+SELECT * FROM admin WHERE id = ?;
+
+selectAttendanceByName:
+SELECT * FROM attendance WHERE name = ?;
+
+selectAttendanceByID:
+SELECT * FROM attendance WHERE id = ?;
+
+selectAttendanceByDate:
+SELECT * FROM attendance WHERE date = ?;
+
+selectDateByDate:
+SELECT * FROM date WHERE date = ?;
+
+deleteMemberByID:
+DELETE FROM member WHERE id = ?;
+
+deleteMemberByName:
+DELETE FROM member WHERE name = ?;
+
+deleteAdminByID:
+DELETE FROM admin WHERE id = ?;
+
+deleteAdminByName:
+DELETE FROM admin WHERE name = ?;
+
+deleteAttendanceByDate:
+DELETE FROM attendance WHERE date = ?;
+
+deleteAttendanceByName:
+DELETE FROM attendance WHERE name = ?;
+
+deleteAttendanceByID:
+DELETE FROM attendance WHERE id = ?;
+
+deleteAttendanceByAttendanceID:
+DELETE FROM attendance WHERE attendance_id = ?;
+
+deleteDateByID:
+DELETE FROM date WHERE id = ?;
+
+deleteDateByDate:
+DELETE FROM date WHERE date = ?;

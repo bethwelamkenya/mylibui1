@@ -7,7 +7,7 @@ import platform.posix.time_tVar
 
 //fun getUserName(): String = Platform.osFamily.name
 fun getUserName1() = getenv("USERNAME")?.toKString()
-fun getDayTime(): String{
+fun getDayTime(): String {
     val now = nativeHeap.alloc<time_tVar>()
     time(now.ptr)
     val tm = localtime(now.ptr)!!.pointed
@@ -29,7 +29,7 @@ fun main() = appWindow(
     val welcomeText = "GOOD"
     val welcomeUser = getUserName1()
     val welcomeTime = getDayTime()
-    lateinit var welcomeConnectionStatus: Label
+//    lateinit var welcomeConnectionStatus: Label
 //    lateinit var userNameTextArea: Label
 //    lateinit var passwordTextArea: Label
 //    lateinit var accountTextArea: Label
@@ -40,8 +40,8 @@ fun main() = appWindow(
 //    lateinit var resetPasswordText: Label
 //    lateinit var resetPasswordLink: Label
 //    lateinit var scroll: TextArea
-    vbox{
-        hbox (padded = true){
+    vbox {
+        hbox(padded = true) {
             label(text = "$welcomeText ")
             label(text = welcomeTime)
             label(text = "$welcomeUser")
@@ -50,24 +50,30 @@ fun main() = appWindow(
         stretchy = true
         vbox.gridpane(padded = true) {
 //            row()
-        group("Log In") { stretchy = true }.form {
+            group("Log In") { stretchy = true }.form {
 //            group("Log In") {}.form {
                 userNameTextField = textfield {
                     label = "User Name"
 //                value = "Password"
-                    action { logInButton.enabled = userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty() }
-/**
-*               label("User Name") {
-*                      FamilyAttribute("Courier New")
-*                      SizeAttribute(28.0)
-*                      WeightAttribute(uiTextWeightBold)
-*                }
-*/
+                    action {
+                        logInButton.enabled =
+                            userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty()
+                    }
+                    /**
+                     *               label("User Name") {
+                     *                      FamilyAttribute("Courier New")
+                     *                      SizeAttribute(28.0)
+                     *                      WeightAttribute(uiTextWeightBold)
+                     *                }
+                     */
                 }
                 passwordTextField = passwordfield {
                     label = "Password"
 //                value = "********"
-                    action { logInButton.enabled = userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty() }
+                    action {
+                        logInButton.enabled =
+                            userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty()
+                    }
 //                label("Password") {
 //                    FamilyAttribute("Courier New")
 //                    SizeAttribute(28.0)
@@ -80,14 +86,17 @@ fun main() = appWindow(
                     item("Member")
                     item("Developer")
                     value = 0
-                    action { logInButton.enabled = userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty() }
-/**
+                    action {
+                        logInButton.enabled =
+                            userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty()
+                    }
+                    /**
                     label("Account") {
                     FamilyAttribute("Courier New")
                     SizeAttribute(28.0)
                     WeightAttribute(uiTextWeightBold)
-                }
-*/
+                    }
+                     */
                 }
             }
 //        separator()
@@ -96,21 +105,26 @@ fun main() = appWindow(
             halign = libui.uiAlignCenter
             valign = libui.uiAlignStart
             gridpane {
-                logInButton = button(text = "Log In"){
+                logInButton = button(text = "Log In") {
                     action {
-                        logIn(userName = userNameTextField.value, password = passwordTextField.value, account = accountCombobox.value)
+                        logIn(
+                            userName = userNameTextField.value,
+                            password = passwordTextField.value,
+                            account = accountCombobox.value
+                        )
+//                        createDemoTable()
                     }
                 }
             }
             logInButton.enabled = userNameTextField.value.isNotEmpty() && passwordTextField.value.isNotEmpty()
             row()
-            gridpane(padded = true){
+            gridpane(padded = true) {
 //            row()
 //            xspan = 2
 //            halign = libui.uiAlignCenter
 //            valign = libui.uiAlignStart
                 label("Forgot Password?")
-                label("Reset Password"){
+                label("Reset Password") {
 
                 }
             }
@@ -135,7 +149,7 @@ fun main() = appWindow(
     }
 }
 
-fun logIn(userName: String, password: String, account: Int){
+fun logIn(userName: String, password: String, account: Int) {
     println("$userName $password $account")
     MsgBox(
         text = "Log In Successful",

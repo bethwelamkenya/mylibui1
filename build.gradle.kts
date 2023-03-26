@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.8.0"
-//    id("app.cash.sqldelight") version "2.0.0-alpha05"
+    id("app.cash.sqldelight") version "2.0.0-alpha05"
 }
 
 group = "com.bethwelamkenya"
@@ -10,23 +10,25 @@ repositories {
     jcenter()
     google()
     mavenCentral()
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://dl.bintray.com/kotlin/kotlin-dev")
 }
 
-//sqldelight {
-//    databases {
-//        create("Database") {
-//            packageName.set("com.bethwelamkenya")
-//        }
-//    }
-//}
+sqldelight {
+    databases {
+        create("Church") {
+            packageName.set("com.bethwelamkenya")
+//            sourceFolders.set(listOf("libuiMain"))
+//            sourceFolders.set(listOf("sqldelight"))
+//            sourceFolders.set("libuiMain")
+        }
+    }
+}
 
 val os = org.gradle.internal.os.OperatingSystem.current()!!
 
 kotlin {
     when {
-        //for 32-bit Windows - replace
-        // here mingwX64 to mingwX86 and
-        // below x86_64 to i686
         os.isWindows -> mingwX64("libui")
         os.isMacOsX -> macosX64("libui")
         os.isLinux -> linuxX64("libui")
@@ -36,11 +38,30 @@ kotlin {
         if (os.isWindows) {
             windowsResources("hello.rc")
             linkerOpts("-mwindows")
+            linkerOpts("-lsqlite3")
+//            linkerOpts("-linker-option", "/LIBPATH:C:\\sqlite3")
+            linkerOpts("-L", "C:\\sqlite3")
         }
     }
-    val libuiMain by sourceSets.getting {
-        dependencies {
-            implementation("com.github.msink:libui:0.1.8")
+
+    sourceSets {
+        commonMain {
+            kotlin.srcDir("src/commonMain/kotlin")
+            resources.srcDir("src/commonMain/resources")
+        }
+        val libuiMain by getting {
+            dependencies {
+                implementation("com.github.msink:libui:0.1.8")
+                implementation("app.cash.sqldelight:native-driver:2.0.0-alpha05")
+                implementation("co.touchlab:sqliter:0.7.0")
+//                implementation("com.asyncant.crypto:sha256-kt-native:1.0")
+//                implementation("com.asyncant.crypto:sha256-kt:1.0")
+//            implementation("com.squareup.sqldelight:sqlite-driver:1.5.0")
+//            implementation("co.touchlab:sqliter:1.2.1")
+//            implementation("com.github.msink:libui:0.1.8")
+//                implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
+//                implementation("com.squareup.sqldelight:coroutines-extensions-jvm:1.5.4")
+            }
         }
     }
 }
@@ -53,7 +74,6 @@ fun org.jetbrains.kotlin.gradle.plugin.mpp.Executable.windowsResources(rcFileNam
     val windresTask = tasks.create<Exec>(taskName) {
         val konanUserDir = System.getenv("KONAN_DATA_DIR") ?: "${System.getProperty("user.home")}/.konan"
         val konanLlvmDir = "$konanUserDir/dependencies/msys2-mingw-w64-x86_64-2/bin"
-//        val konanLlvmDir = "$konanUserDir/dependencies/msys2-mingw-w64-x86_64-clang-llvm-lld-compiler_rt-8.0.1/bin"
 
         inputs.file(inFile)
         outputs.file(outFile)
